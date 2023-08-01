@@ -19,5 +19,9 @@ install: check_extensions_enabled check_extensions_dir_set
 	cp pdf.bash "$$PASSWORD_STORE_EXTENSIONS_DIR"
 	chmod +x "$$PASSWORD_STORE_EXTENSIONS_DIR/pdf.bash"
 
+.PHONY:
+lint:
+	shellcheck -s bash -S style *.bash
+
 uninstall:
 	rm -f "$$PASSWORD_STORE_EXTENSIONS_DIR/pdf.bash"
