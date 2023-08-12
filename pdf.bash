@@ -9,6 +9,7 @@ PASSWORD_STORE_DIR="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
 
 print_help () {
 	cat <<-_EOF
+Source: https://sr.ht/~thalia/pass-pdf
 Usage:
     $PROGRAM pdf [version,--version,-v]
        Print extension version.
