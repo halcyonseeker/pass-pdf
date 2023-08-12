@@ -57,23 +57,8 @@ _EOF
 }
 
 pdf_generate_password_section() {
-	path="$1"
-	cat <<-_EOF
-.NH
-$path
-.LP
-.CW
-Password contents will go here!
-.LP
-.CW
-another line
-.LP
-.CW
-let's see how this fontifies
-.LP
-.CW
-unicode? длорыфвдаршг🩸  nahh bitch of course that would be too easy :(
-_EOF
+	printf ".NH\n$1\n"
+	pass "$1" | while read -r line; do printf ".LP\n.CW\n$line\n"; done
 }
 
 is_password_excluded () {
