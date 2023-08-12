@@ -3,7 +3,7 @@
 VERSION=1.0.0
 # OUTPUT_FILE=""
 # PREAMBLE_FILE=""
-# EXCLUDE_REGEXS=()
+declare -a EXCLUDE_REGEXES
 PASSWORD_STORE_DIR="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
 
 cmd_pdf_help () {
@@ -67,15 +67,23 @@ unicode? длорыфвдаршг🩸  nahh bitch of course that would be too ea
 _EOF
 }
 
+is_password_excluded () {
+	for re in "${EXCLUDE_REGEXES[@]}"; do
+		[[ "$1" =~ $re ]] && return 0
+	done
+	return 1
+}
+
 pdf_generate_source () {
 	pdf_generate_preamble
 	if [ $# -eq 0 ]; then
 		find "$PASSWORD_STORE_DIR" -name '*.gpg' | while read -r p; do
-			pdf_generate_password_section "${p#"$PASSWORD_STORE_DIR"/}"
+			p="${p#"$PASSWORD_STORE_DIR"/}"
+			is_password_excluded "$p" || pdf_generate_password_section
 		done
 	else
 		for p in "$@"; do
-			pdf_generate_password_section "$p"
+			is_password_excluded "$p" || pdf_generate_password_section "$p"
 			shift
 		done
 	fi
@@ -87,7 +95,7 @@ while true; do
 		version|--version|-v) cmd_pdf_version ;;
 		# --output|-o)          OUTPUT_FILE="$2"; shift 2 ;;
 		# --preamble|-p)        PREAMBLE_FILE="$2"; shift 2 ;;
-		# --exclude|-x)         EXCLUDE_REGEXS+=("$2"); shift 2 ;;
+		--exclude|-x)         EXCLUDE_REGEXES+=("$2"); shift 2 ;;
 		*)                    pdf_generate_source "$@"; break ;;
 	esac
 done
