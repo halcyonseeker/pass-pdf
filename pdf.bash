@@ -45,15 +45,10 @@ insert_user_supplied_preamble() {
 }
 
 pdf_generate_preamble() {
-	cat <<-_EOF
-.TL
-Password Store Backup Created $(date +'%Y-%m-%d %R %Z')
-.AU
-$(user_real_name)
-.CW $(whoami)@$(hostname -f)
-.PP
-$(insert_user_supplied_preamble)
-_EOF
+	printf ".TL\nPassword Store Backup Created $(date +'%Y-%m-%d %R %Z')\n"
+	printf ".AU\n%s\n" "$(user_real_name)"
+	printf ".CW %s@%s\n" "$(whoami)" "$(hostname -f)"
+	printf ".PP\n%s\n" "$(insert_user_supplied_preamble)"
 }
 
 pdf_generate_password_section() {
