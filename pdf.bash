@@ -48,7 +48,7 @@ pdf_generate_preamble() {
 
 pdf_generate_password_section() {
 	printf ".NH\n$1\n"
-	pass "$1" | while read -r line; do printf ".LP\n.CW\n$line\n"; done
+	pass "$1" | while read -r line; do printf ".LP\n.CW\n%s\n" "$line"; done
 }
 
 is_password_excluded () {
