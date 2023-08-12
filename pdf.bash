@@ -89,11 +89,13 @@ pdf_generate_source () {
 	if [ $# -eq 0 ]; then
 		find "$PASSWORD_STORE_DIR" -name '*.gpg' | while read -r p; do
 			p="${p#"$PASSWORD_STORE_DIR"/}"
-			is_password_excluded "$p" || pdf_generate_password_section
+			is_password_excluded "$p" \
+				|| pdf_generate_password_section
 		done
 	else
 		for p in "$@"; do
-			is_password_excluded "$p" || pdf_generate_password_section "$p"
+			is_password_excluded "$p" \
+				|| pdf_generate_password_section "$p"
 			shift
 		done
 	fi
@@ -101,7 +103,9 @@ pdf_generate_source () {
 
 create_pdf_or_dump_source () {
 	if [ -n "$OUTPUT_FILE" ]; then
-		(pdf_generate_source "$@") | preconv | groff -ms -T pdf > "$OUTPUT_FILE"
+		(pdf_generate_source "$@") \
+			| preconv \
+			| groff -ms -T pdf > "$OUTPUT_FILE"
 	else
 		pdf_generate_source "$@"
 	fi
