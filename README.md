@@ -24,6 +24,15 @@ Future Work
   abortion of an assembly language mother and an absent but surely
   syphilitic father 😒.
 - Figure out how to do zsh completions for this.
+- **Major Issue** When exporting my password store, gropdf trips over
+  some characters, figure out what theses are and escape them!  The
+  errors yielded are
+  ```
+  Use of uninitialized value $xprm[0] in pattern match (m//) at /usr/bin/gropdf line 743, <> line 6809.
+  Use of uninitialized value $xprm[0] in string eq at /usr/bin/gropdf line 751, <> line 6809.
+  Use of uninitialized value $xprm[0] in lc at /usr/bin/gropdf line 979, <> line 6809.
+  Use of uninitialized value in substr at /usr/bin/gropdf line 1231, <> line 6809.
+  ```
 
 License
 ---
