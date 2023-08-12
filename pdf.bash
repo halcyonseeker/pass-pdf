@@ -19,7 +19,7 @@ Usage:
        supplied, dump the roff source for all passwords to stdout.  If some
        passwords are supplied on the command line, only save those ones.
        Pass -o to save to a pdf file instead of dumping the source.  Pass -x
-       multiple time to exclude some passwords from being archived.  Pass -p
+       multiple times to exclude some passwords from being archived.  Pass -p
        to add some preamble to the PDF, if it's a '-' this will be read from
        stdin instead of a file.
     $PROG
