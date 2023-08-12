@@ -63,8 +63,9 @@ pdf_generate_source () {
 	if [ $# -eq 0 ]; then
 		find "$PASSWORD_STORE_DIR" -name '*.gpg' | while read -r p; do
 			p="${p#"$PASSWORD_STORE_DIR"/}"
+			p="${p%.gpg}"
 			is_password_excluded "$p" \
-				|| pdf_generate_password_section
+				|| pdf_generate_password_section "$p"
 		done
 	else
 		for p in "$@"; do
