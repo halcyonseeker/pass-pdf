@@ -7,7 +7,7 @@ declare -a EXCLUDE_REGEXES
 declare -a PASSWORDS
 PASSWORD_STORE_DIR="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
 
-cmd_pdf_help () {
+print_help () {
 	cat <<-_EOF
 Usage:
     $PROGRAM pdf [version,--version,-v]
@@ -24,7 +24,6 @@ Usage:
        to add some preamble to the PDF, if it's a '-' this will be read from
        stdin instead of a file.
 _EOF
-	exit 0
 }
 
 cmd_pdf_version () {
@@ -93,14 +92,15 @@ create_pdf_or_dump_source () {
 assert_arg () {
 	[ -n "$2" ] || {
 		echo "Fatal: Argument '$1' requires an option." 1>&2
-		(cmd_pdf_help) 1>&2
+		(print_help) 1>&2
 		exit 1;
 	}
 }
 
 while true; do
 	case "$1" in
-		help|--help|-h)       cmd_pdf_help ;;
+		help|--help|-h)
+			print_help; exit 0 ;;
 		version|--version|-v) cmd_pdf_version ;;
 		--output|-o)
 			assert_arg "$1" "$2"; OUTPUT_FILE="$2"; shift 2 ;;
