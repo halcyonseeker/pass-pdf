@@ -111,13 +111,24 @@ create_pdf_or_dump_source () {
 	fi
 }
 
+assert_arg () {
+	[ -n "$2" ] || {
+		echo "Fatal: Argument '$1' requires an option." 1>&2
+		(cmd_pdf_help) 1>&2
+		exit 1;
+	}
+}
+
 while true; do
 	case "$1" in
 		help|--help|-h)       cmd_pdf_help ;;
 		version|--version|-v) cmd_pdf_version ;;
-		--output|-o)          OUTPUT_FILE="$2"; shift 2 ;;
-		--preamble|-p)        PREAMBLE_FILE="$2"; shift 2 ;;
-		--exclude|-x)         EXCLUDE_REGEXES+=("$2"); shift 2 ;;
+		--output|-o)
+			assert_arg "$1" "$2"; OUTPUT_FILE="$2"; shift 2 ;;
+		--preamble|-p)
+			assert_arg "$1" "$2"; PREAMBLE_FILE="$2"; shift 2 ;;
+		--exclude|-x)
+			assert_arg "$1" "$2"; EXCLUDE_REGEXES+=("$2"); shift 2 ;;
 		*) if [ -n "$1" ]; then
 			   PASSWORDS+=("$1"); shift
 		   else
