@@ -23,7 +23,6 @@ Usage:
        multiple times to exclude some passwords from being archived.  Pass -p
        to add some preamble to the PDF, if it's a '-' this will be read from
        stdin instead of a file.
-    $PROG
 _EOF
 	exit 0
 }
