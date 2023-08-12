@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 VERSION=1.0.0
-# OUTPUT_FILE=""
 # PREAMBLE_FILE=""
+OUTPUT_FILE=""
 declare -a EXCLUDE_REGEXES
 PASSWORD_STORE_DIR="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
 
@@ -89,13 +89,21 @@ pdf_generate_source () {
 	fi
 }
 
+create_pdf_or_dump_source () {
+	if [ -n "$OUTPUT_FILE" ]; then
+		(pdf_generate_source "$@") | preconv | groff -ms -T pdf > "$OUTPUT_FILE"
+	else
+		pdf_generate_source "$@"
+	fi
+}
+
 while true; do
 	case "$1" in
 		help|--help|-h)       cmd_pdf_help ;;
 		version|--version|-v) cmd_pdf_version ;;
-		# --output|-o)          OUTPUT_FILE="$2"; shift 2 ;;
 		# --preamble|-p)        PREAMBLE_FILE="$2"; shift 2 ;;
+		--output|-o)          OUTPUT_FILE="$2"; shift 2 ;;
 		--exclude|-x)         EXCLUDE_REGEXES+=("$2"); shift 2 ;;
-		*)                    pdf_generate_source "$@"; break ;;
+		*)                    create_pdf_or_dump_source "$@"; break ;;
 	esac
 done
