@@ -4,6 +4,7 @@ VERSION=1.0.0
 OUTPUT_FILE=""
 PREAMBLE_FILE=""
 declare -a EXCLUDE_REGEXES
+declare -a PASSWORDS
 PASSWORD_STORE_DIR="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
 
 cmd_pdf_help () {
@@ -113,6 +114,11 @@ while true; do
 		--output|-o)          OUTPUT_FILE="$2"; shift 2 ;;
 		--preamble|-p)        PREAMBLE_FILE="$2"; shift 2 ;;
 		--exclude|-x)         EXCLUDE_REGEXES+=("$2"); shift 2 ;;
-		*)                    create_pdf_or_dump_source "$@"; break ;;
+		*) if [ -n "$1" ]; then
+			   PASSWORDS+=("$1"); shift
+		   else
+			   break
+		   fi ;
 	esac
 done
+create_pdf_or_dump_source "${PASSWORDS[@]}"
