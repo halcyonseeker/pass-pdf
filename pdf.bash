@@ -26,11 +26,6 @@ Usage:
 _EOF
 }
 
-cmd_pdf_version () {
-	echo "$VERSION"
-	exit 0
-}
-
 user_real_name() {
 	grep "^$(whoami)" /etc/passwd | cut -d ':' -f5 | cut -d ',' -f1
 }
@@ -101,7 +96,8 @@ while true; do
 	case "$1" in
 		help|--help|-h)
 			print_help; exit 0 ;;
-		version|--version|-v) cmd_pdf_version ;;
+		version|--version|-v)
+			echo "pass-pdf: $VERSION"; exit 0 ;;
 		--output|-o)
 			assert_arg "$1" "$2"; OUTPUT_FILE="$2"; shift 2 ;;
 		--preamble|-p)
